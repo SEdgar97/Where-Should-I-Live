@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Cities</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/superhero/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+<style> 
+body {
+	background-image: url("city.jpg");background-color:grey;height:500px;background-position:center;
+	background-repeat:no-repeat;background-size:cover;position:relative;
+}
+</style>
+
+</head>
+
+
+<body>
+<table style ="width:100%">
+	<tr>
+	<th class="not_mapped_style" style="text-align:center;color:white;background-color:black;font-size:30px">WHERE SHOULD I LIVE?<br></th>
+	</tr>
+	<tr>
+	<td align="right"><img src="A.jpg" alt="" border=3 height=420px width=500></img><br><br></td>
+	</tr>
+</table>
+
+<table style="width:50%;color:white">
+  <tr>
+    <th></th>
+    <th>Minimum</th>
+    <th>Maximum</th>
+  </tr>
+  <tr>
+    <td>Crime Rate</td>
+	<td><select name="minCrimeRate" id="minCrimeRate">
+		<option value="0">0</option>
+		<option value="10">10</option>
+		<option value="50">50</option>
+		<option value="100">100</option>
+	</select></td>
+	<td><select name="maxCrimeRate" id="maxCrimeRate">
+		<option value="0">0</option>
+		<option value="10">10</option>
+		<option value="50">50</option>
+		<option value="100">100</option>
+	</select></td>
+  </tr>
+  <tr>
+    <td>Climate Index</td>
+    <td><select name="minClimateIndex" id="minClimateIndex">
+		<option value="0">0</option>
+		<option value="10">10</option>
+		<option value="50">50</option>
+		<option value="100">100</option>
+	</select></td>
+	<td><select name="maxClimateIndex" id="maxClimateIndex">
+		<option value="0">0</option>
+		<option value="10">10</option>
+		<option value="50">50</option>
+		<option value="100">100</option>
+	</select></td>
+  </tr>
+    <tr>
+    <td>Property Price Rate</td>
+    <td><select name="minPropertyPriceRate" id="minPropertyPriceRate">
+		<option value="0">0</option>
+		<option value="10">10</option>
+		<option value="50">50</option>
+		<option value="100">100</option>
+	</select></td>
+	<td><select name="maxPropertyPriceRate" id="maxPropertyPriceRate">
+		<option value="0">0</option>
+		<option value="10">10</option>
+		<option value="50">50</option>
+		<option value="100">100</option>
+	</select></td>
+  </tr>
+    <tr>
+    <td>Quality of Life Index</td>
+    <td><select name="minQualityofLifeIndex" id="minQualityofLifeIndex">
+		<option value="0">0</option>
+		<option value="10">10</option>
+		<option value="50">50</option>
+		<option value="100">100</option>
+	</select></td>
+	<td><select name="maxQualityofLifeIndex" id="maxQualityofLifeIndex">
+		<option value="0">0</option>
+		<option value="10">10</option>
+		<option value="50">50</option>
+		<option value="100">100</option>
+	</select></td>
+  </tr>
+  <tr>
+	<td></td>
+	<td></td>
+	<td><br><br><input style="text-align:center;font-size:18px" type="submit" value="Search"></td>
+		
+</table>
+
+<h2>Top 3 cities</h2>
+
+<ol>
+  <li>Chicago</li>
+  <li>New York</li>
+  <li>Los Angeles</li>
+</ol> 
+			
+</body>			
+</html>
