@@ -21,7 +21,7 @@ def request_cities_in_usa():
     with open(json_file_name, "w") as json_file:
         json.dump(response.json(), json_file)
 
-def write_to_csv():
+def write_cities_to_csv():
     with open('Resources/cities_in_usa.json') as data_file: 
         data = json.load(data_file)
         df = pd.DataFrame.from_dict(data['cities'], orient='columns')
@@ -32,72 +32,80 @@ def request_indices_for_us_cities():
     header = ['city', 'city_id', 'health_care_index', 'crime_index','restaurant_price_index',
                 'climate_index','pollution_index','quality_of_life_index','cpi_index','property_price_to_income_ratio',
                 'purchasing_power_incl_rent_index']
-    with open("Resources/cities_indices.csv",mode='w') as indices_file:
-        index_writer = csv.writer(indices_file, delimiter=',')
-        index_writer.writerow(header)
-        with open("Resources/cities_in_usa.csv",'r') as csvfile:
-            zeroCols = 0
-            reader = csv.DictReader(csvfile)
-            i = 0           
-            for row in reader:
-                if i==0:
-                    pass
-                city_id = row['city_id']
-                url = f'https://www.numbeo.com/api/indices?api_key={api_key}&city_id={city_id}'
-                response = requests.get(url)
-                response_json = response.json()
-            
-                data = []
-                data.append(row['city'])
-                data.append(row['city_id'])
-                if response_json.get('health_care_index'):
-                    data.append(response_json.get('health_care_index'))
-                else:
-                    data.append(0)
-                    zeroCols += 1
-                if response_json.get('crime_index'):
-                    data.append(response_json.get('crime_index'))
-                else:
-                    data.append(0)
-                    zeroCols += 1
-                if response_json.get('restaurant_price_index'):
-                    data.append(response_json.get('restaurant_price_index'))
-                else:
-                    data.append(0)
-                    zeroCols += 1
-                if response_json.get('climate_index'):
-                    data.append(response_json.get('climate_index'))
-                else:
-                    zeroCols += 1
-                    data.append(0)
-                if response_json.get('pollution_index'):
-                    data.append(response_json.get('pollution_index'))
-                else:
-                    zeroCols += 1
-                    data.append(0)
-                if response_json.get('quality_of_life_index'):
-                    data.append(response_json.get('quality_of_life_index'))
-                else:
-                    zeroCols += 1
-                    data.append(0)        
-                if response_json.get('cpi_index'):
-                    data.append(response_json.get('cpi_index'))
-                else:
-                    zeroCols += 1
-                    data.append(0)
-                if response_json.get('property_price_to_income_ratio'):
-                    data.append(response_json.get('property_price_to_income_ratio'))
-                else:
-                    zeroCols += 1
-                    data.append(0)
-                if response_json.get('purchasing_power_incl_rent_index'):
-                    data.append(response_json.get('purchasing_power_incl_rent_index'))
-                else:
-                    zeroCols += 1
-                    data.append(0)
-                if zeroCols <= 3:  
-                    index_writer.writerow(data)
+    i = 0
+    with open("Resources/clean_us_cities.csv",mode='w') as clean_cities_file:
+        clean_cities_writer = csv.writer(clean_cities_file, delimiter=',')
+        with open("Resources/cities_indices.csv",mode='w') as indices_file:
+            index_writer = csv.writer(indices_file, delimiter=',')
+            index_writer.writerow(header)
+            with open("Resources/cities_in_usa.csv",'r') as csvfile:
                 zeroCols = 0
+                reader = csv.DictReader(csvfile)
+                      
+                for row in reader:
+                    if i==0:
+                        clean_cities_writer.writerow(row)
+                        pass 
+                    i+=1                    
+                    city_id = row['city_id']
+                    url = f'https://www.numbeo.com/api/indices?api_key={api_key}&city_id={city_id}'
+                    response = requests.get(url)
+                    response_json = response.json()
+                
+                    data = []
+                    data.append(row['city'])
+                    data.append(row['city_id'])
+                    if response_json.get('health_care_index'):
+                        data.append(response_json.get('health_care_index'))
+                    else:
+                        data.append(0)
+                        zeroCols += 1
+                    if response_json.get('crime_index'):
+                        data.append(response_json.get('crime_index'))
+                    else:
+                        data.append(0)
+                        zeroCols += 1
+                    if response_json.get('restaurant_price_index'):
+                        data.append(response_json.get('restaurant_price_index'))
+                    else:
+                        data.append(0)
+                        zeroCols += 1
+                    if response_json.get('climate_index'):
+                        data.append(response_json.get('climate_index'))
+                    else:
+                        zeroCols += 1
+                        data.append(0)
+                    if response_json.get('pollution_index'):
+                        data.append(response_json.get('pollution_index'))
+                    else:
+                        zeroCols += 1
+                        data.append(0)
+                    if response_json.get('quality_of_life_index'):
+                        data.append(response_json.get('quality_of_life_index'))
+                    else:
+                        zeroCols += 1
+                        data.append(0)        
+                    if response_json.get('cpi_index'):
+                        data.append(response_json.get('cpi_index'))
+                    else:
+                        zeroCols += 1
+                        data.append(0)
+                    if response_json.get('property_price_to_income_ratio'):
+                        data.append(response_json.get('property_price_to_income_ratio'))
+                    else:
+                        zeroCols += 1
+                        data.append(0)
+                    if response_json.get('purchasing_power_incl_rent_index'):
+                        data.append(response_json.get('purchasing_power_incl_rent_index'))
+                    else:
+                        zeroCols += 1
+                        data.append(0)
+                    if zeroCols <= 3:  
+                        index_writer.writerow(data)
+                        city = list(row.values())
+                        clean_cities_writer.writerow(city)
+                        print(row.values(),city)
+                    zeroCols = 0
 
 def request_cost_of_living_rankings():
     url = f'https://www.numbeo.com/api/rankings_by_city_current?api_key={api_key}&section=1'
@@ -134,6 +142,7 @@ def request_cost_of_living_rankings():
     df = pd.DataFrame.from_dict(response_json)
     df = df.loc[df['country'] == 'United States']
     df.to_csv("Resources/qol_rankings.csv")
+
         
 
 if __name__ == "__main__":
