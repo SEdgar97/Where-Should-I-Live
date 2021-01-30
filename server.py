@@ -20,8 +20,6 @@ def signUpUser():
 @app.route('/get_data', methods=['POST'])
 def getMapData():
     filters = [0,0,0,0]
-
-
     data = utility.get_Data(filters)
     return data
 
