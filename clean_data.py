@@ -3,6 +3,7 @@ import json
 import requests
 import csv
 from pprint import pprint
+import qol_db.db as db
 
 api_key = "oez5tbfb8gztav"
 
@@ -29,9 +30,9 @@ def write_cities_to_csv():
     df.to_csv("Resources/cities_in_usa.csv", index=False)
 
 def request_indices_for_us_cities():
-    header = ['city', 'city_id', 'health_care_index', 'crime_index','restaurant_price_index',
+    header = ['city_id', 'health_care_index', 'crime_index','restaurant_price_index',
                 'climate_index','pollution_index','quality_of_life_index','cpi_index','property_price_to_income_ratio',
-                'purchasing_power_incl_rent_index']
+                'purchasing_power_incl_rent_index', 'traffic_index']
     i = 0
     with open("Resources/clean_us_cities.csv",mode='w') as clean_cities_file:
         clean_cities_writer = csv.writer(clean_cities_file, delimiter=',')
@@ -53,7 +54,7 @@ def request_indices_for_us_cities():
                     response_json = response.json()
                 
                     data = []
-                    data.append(row['city'])
+                    #data.append(row['city'])
                     data.append(row['city_id'])
                     if response_json.get('health_care_index'):
                         data.append(response_json.get('health_care_index'))
@@ -100,6 +101,11 @@ def request_indices_for_us_cities():
                     else:
                         zeroCols += 1
                         data.append(0)
+                    if response_json.get('traffic_index'):
+                        data.append(response_json.get('traffic_index'))
+                    else:
+                        zeroCols += 1
+                        data.append(0)
                     if zeroCols <= 3:  
                         index_writer.writerow(data)
                         city = list(row.values())
@@ -143,11 +149,42 @@ def request_cost_of_living_rankings():
     df = df.loc[df['country'] == 'United States']
     df.to_csv("Resources/qol_rankings.csv")
 
+def rearrange_columns_for_db():
+    filepath = "Resources/clean_us_cities.csv"
+    cities_df = pd.read_csv(filepath, index_col=0)
+    cols_to_order=['city','latitude','longitude','city_id']
+    new_columns = cols_to_order + (cities_df.columns.drop(cols_to_order).tolist())
+    cities_df = cities_df[new_columns]
+    filepath = "Resources/clean_us_cities_db.csv"
+    cities_df.to_csv(filepath)
+   
+def take_care_of_zeros():
+    filepath = "Resources/cities_indices.csv"
+    indices_df = pd.read_csv(filepath, index_col=0)
+    indices_df['health_care_index']=indices_df['health_care_index'].replace(0,indices_df['health_care_index'].mean())
+    indices_df['crime_index']=indices_df['crime_index'].replace(0,indices_df['crime_index'].mean())
+    indices_df['restaurant_price_index']=indices_df['restaurant_price_index'].replace(0,indices_df['restaurant_price_index'].mean())
+    indices_df['climate_index']=indices_df['climate_index'].replace(0,indices_df['climate_index'].mean())
+    indices_df['pollution_index']=indices_df['pollution_index'].replace(0,indices_df['pollution_index'].mean())
+    indices_df['quality_of_life_index']=indices_df['quality_of_life_index'].replace(0,indices_df['quality_of_life_index'].mean())
+    indices_df['cpi_index']=indices_df['cpi_index'].replace(0,indices_df['cpi_index'].mean())
+    indices_df['property_price_to_income_ratio']=indices_df['property_price_to_income_ratio'].replace(0,indices_df['property_price_to_income_ratio'].mean())
+    indices_df['purchasing_power_incl_rent_index']=indices_df['purchasing_power_incl_rent_index'].replace(0,indices_df['purchasing_power_incl_rent_index'].mean())
+    indices_df['traffic_index']=indices_df['traffic_index'].replace(0,indices_df['traffic_index'].mean())
+    indices_df = indices_df.round(3)
+    filepath = "Resources/cities_indices_db.csv"
+    indices_df.to_csv(filepath)
         
+"""
+ETL Part here...
 
-if __name__ == "__main__":
-    #request_cities_in_usa()
-    #write_to_csv()
-    request_indices_for_us_cities()
-    request_cost_of_living_rankings()
-        
+    if __name__ == "__main__":
+        #Request all cities from usa from nombeo site
+        #request_cities_in_usa()
+        #write_to_csv()
+        #request_indices_for_us_cities()
+        #request_cost_of_living_rankings()
+        #rearrange_columns_for_db()
+        #take_care_of_zeros()
+
+"""
