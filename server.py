@@ -1,5 +1,6 @@
 from flask import request, Flask, jsonify, render_template, redirect, json
 from qol_db import db
+import clean_data
 
 app = Flask(__name__)
 qol = db.Database_QOL()
@@ -26,6 +27,7 @@ def get_cities():
     
 
 if __name__=="__main__":
+    clean_data.request_cost_of_living_rankings()
     qol.database_test()
     qol.get_cities_by_user_input(20)
     app.run(port = 5002)
