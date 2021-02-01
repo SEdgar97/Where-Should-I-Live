@@ -149,6 +149,14 @@ def request_cost_of_living_rankings():
     df = df.loc[df['country'] == 'United States']
     df.to_csv("Resources/qol_rankings.csv")
 
+def clean_median_income():
+    filepath = "Resources/merge3.csv"
+    median_df = pd.read_csv(filepath)
+    median_df = median_df.drop(['country','cities','state','latitude','longitude','Zip_Code','ALand','ALand'], axis=1)
+    print(median_df.head())
+    median_df = median_df.rename(columns={"Mean": "mean", "Median": "median", "Stdev": "std_dev"}, errors="raise")
+    median_df.to_csv("Resources/median_income_db.csv")
+
 def rearrange_columns_for_db():
     filepath = "Resources/clean_us_cities.csv"
     cities_df = pd.read_csv(filepath, index_col=0)
@@ -175,8 +183,7 @@ def take_care_of_zeros():
     filepath = "Resources/cities_indices_db.csv"
     indices_df.to_csv(filepath)
         
-"""
-ETL Part here...
+#ETL Part here...
 
     if __name__ == "__main__":
         #Request all cities from usa from nombeo site
@@ -186,5 +193,4 @@ ETL Part here...
         #request_cost_of_living_rankings()
         #rearrange_columns_for_db()
         #take_care_of_zeros()
-
-"""
+        clean_median_income()
