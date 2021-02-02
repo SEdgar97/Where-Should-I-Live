@@ -13,31 +13,40 @@ L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
   accessToken: API_KEY
 }).addTo(myMap);
 
-
-
-
+var crimeVal = 0;
+var HCVal = 0;
+var pollutionVal = 0;
+var restaurantVal = 0;
 
 
 $(function(){
-	$('button').click(function(){
-		var user = $('#inputUsername').val();
-		var pass = $('#inputPassword').val();
+	var crimeFilter = d3.select("#crimeFilter");
+	var HCFilter = d3.select("#HCFilter");
+	var pollutionFilter = d3.select("#pollutionFilter");
+	var restaurantFilter = d3.select("#restFilter");
 
-//		$.ajax({
-//			url: '/signUpUser',
-//			data: $('form').serialize(),
-//			type: 'POST',
-//			success: function(response){
-//				console.log(response);
-//			},
-//			error: function(error){
-//				console.log(error);
-//			}
-//		});
+	crimeFilter.on("change",function(){
+	    crimeVal = this.value;
+	});
+	HCFilter.on("change",function(){
+	    HCVal = this.value;
+	});
+	pollutionFilter.on("change",function(){
+	    pollutionVal = this.value;
+	});
+	restaurantFilter.on("change",function(){
+	    restaurantVal = this.value;
+	});
+
+var filters = {"Crime": crimeVal,"Healthcare": HCVal,"Pollution": pollutionVal,"Restaurant": restaurantVal};
+
+	$('button').click(function(){
+
+
 
 		$.ajax({
 			url: '/get_data',
-			data: "hello",
+			data: filters,
 			type: 'POST',
 			success: function(response){
 				response = JSON.parse(response)
@@ -60,10 +69,6 @@ $(function(){
                     .bindPopup("<h1>" + city.name + "</h1> <hr> <h3>Population " + city.population + "</h3>")
                     .addTo(myMap);
                 }
-
-
-
-
 			},
 			error: function(error){
 				console.log(error);
