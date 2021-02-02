@@ -29,5 +29,6 @@ def get_cities():
 if __name__=="__main__":
     clean_data.request_cost_of_living_rankings()
     qol.database_test()
-    qol.get_cities_by_user_input(20)
+    qol.get_cities_by_user_input(crime_index = "0-20", health_care_index = "70-100", 
+                                    pollution_index = "0-20")
     app.run(port = 5002)

@@ -1,5 +1,6 @@
 # Import SQLAlchemy `automap` and other dependencies here
 import sqlalchemy
+from sqlalchemy import or_
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, inspect, func
@@ -28,7 +29,16 @@ class Database_QOL:
         print(self.inspector.get_table_names())
 
 
-    def get_cities_by_user_input(self, crime_index = 20, health_care_index = 60, pollution_index = 20):
+    def get_cities_by_user_input(self, crime_index = "0-25", health_care_index = "50-70", pollution_index = "0-20"):
+        numbers = [int(x) for x in health_care_index.split('-')]
+        crime_index_cond = [self.Metrics.crime_index > numbers[0], self.Metrics.crime_index <= numbers[1]]
+
+        numbers = [int(x) for x in health_care_index.split('-')]
+        health_care_index_cond = [self.Metrics.health_care_index > numbers[0], self.Metrics.health_care_index <= numbers[1]]
+
+        numbers = [int(x) for x in pollution_index.split('-')]
+        pollution_index_cond = [self.Metrics.pollution_index > numbers[0], self.Metrics.pollution_index <= numbers[1]]
+
         select_stmt = [ self.Metrics.city_id,
                 self.Cities.city,
                 self.Metrics.crime_index,
@@ -37,10 +47,11 @@ class Database_QOL:
                 self.Metrics.health_care_index,
                 self.Metrics.property_price_to_income_ratio,
                 self.Metrics.traffic_index]
+                
         results = self.session.query(*select_stmt).\
-                                    filter(self.Metrics.crime_index <= crime_index). \
-                                        filter(self.Metrics.health_care_index >= health_care_index). \
-                                            filter(self.Metrics.pollution_index <= pollution_index). \
+                                    filter(or_(*crime_index_cond)). \
+                                        filter(or_(*health_care_index_cond)). \
+                                            filter(or_(*pollution_index_cond)). \
                                                 filter(self.Metrics.city_id == self.Cities.city_id). \
                                                 all()
         
