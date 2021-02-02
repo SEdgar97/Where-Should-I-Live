@@ -21,7 +21,8 @@ def signUpUser():
 
 @app.route('/life', methods=['GET'])
 def get_cities():
-    db_json = qol.get_cities_by_user_input(crime_index = 20, health_care_index = 60,pollution_index = 20)
+    db_json = qol.get_cities_by_user_input(crime_index = "0-20", health_care_index = "70-100", 
+                                    pollution_index = "0-20")
     print(db_json)
     return db_json
     

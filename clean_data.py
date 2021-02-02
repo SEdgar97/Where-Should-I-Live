@@ -3,8 +3,8 @@ import json
 import requests
 import csv
 from pprint import pprint
+from config import api_key
 
-api_key = "oez5tbfb8gztav"
 
 def read_cities():
     filepath = "Resources/cities.csv"
