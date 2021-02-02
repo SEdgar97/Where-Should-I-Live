@@ -9,12 +9,6 @@
   <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 
-<style> 
-body {
-	background-image: url("city.jpg");background-color:grey;height:500px;background-position:center;
-	background-repeat:no-repeat;background-size:cover;position:relative;
-}
-</style>
 
 </head>
 
@@ -22,78 +16,63 @@ body {
 <body>
 <table style ="width:100%">
 	<tr>
-	<th class="not_mapped_style" style="text-align:center;color:white;background-color:black;font-size:30px">WHERE SHOULD I LIVE?<br></th>
+	<th class="not_mapped_style" style="text-align:center;color:white;font-size:40px">WHERE SHOULD I LIVE?<br></th>
 	</tr>
+	<td align="center"><img src="city.jpg" alt="" border=3 width="100%" height=488></img><br><br></td>
 	<tr>
-	<td align="right"><img src="A.jpg" alt="" border=3 height=420px width=500></img><br><br></td>
-	</tr>
+	
 </table>
 
-<table style="width:50%;color:white">
+<table style="width:100%;color:white">
   <tr>
     <th></th>
-    <th>Minimum</th>
-    <th>Maximum</th>
+    <th></th>
+    
   </tr>
   <tr>
-    <td>Crime Rate</td>
-	<td><select name="minCrimeRate" id="minCrimeRate">
-		<option value="0">0</option>
-		<option value="10">10</option>
-		<option value="50">50</option>
-		<option value="100">100</option>
+    <td>Crime Index</td>
+	<td><select name="Select" id="Select">
+		<option value="SELECT">SELECT</option>	
+		<option value="0-25">0-25</option>
+		<option value="26-50">26-50</option>
+		<option value="51-75">51-75</option>
+		<option value="76-100">76-100</option>
 	</select></td>
-	<td><select name="maxCrimeRate" id="maxCrimeRate">
-		<option value="0">0</option>
-		<option value="10">10</option>
-		<option value="50">50</option>
-		<option value="100">100</option>
-	</select></td>
+	
+	<td align="center" rowspan="5"><img src="A.jpg" alt="" border=3 width=500 height=420></img></td>
   </tr>
   <tr>
-    <td>Climate Index</td>
-    <td><select name="minClimateIndex" id="minClimateIndex">
-		<option value="0">0</option>
-		<option value="10">10</option>
-		<option value="50">50</option>
-		<option value="100">100</option>
+    <td>Health Care Index</td>
+    <td><select name="Select" id="Select">
+		<option value="SELECT">SELECT</option>	
+		<option value="0-25">0-25</option>
+		<option value="26-50">26-50</option>
+		<option value="51-75">51-75</option>
+		<option value="76-100">76-100</option>
 	</select></td>
-	<td><select name="maxClimateIndex" id="maxClimateIndex">
-		<option value="0">0</option>
-		<option value="10">10</option>
-		<option value="50">50</option>
-		<option value="100">100</option>
-	</select></td>
+	
   </tr>
     <tr>
-    <td>Property Price Rate</td>
-    <td><select name="minPropertyPriceRate" id="minPropertyPriceRate">
-		<option value="0">0</option>
-		<option value="10">10</option>
-		<option value="50">50</option>
-		<option value="100">100</option>
+    <td>Pollution Index</td>
+    <td><select name="Select" id="Select">
+		<option value="SELECT">SELECT</option>	
+		<option value="0-25">0-25</option>
+		<option value="26-50">26-50</option>
+		<option value="51-75">51-75</option>
+		<option value="76-100">76-100</option>
 	</select></td>
-	<td><select name="maxPropertyPriceRate" id="maxPropertyPriceRate">
-		<option value="0">0</option>
-		<option value="10">10</option>
-		<option value="50">50</option>
-		<option value="100">100</option>
-	</select></td>
+	
   </tr>
     <tr>
-    <td>Quality of Life Index</td>
-    <td><select name="minQualityofLifeIndex" id="minQualityofLifeIndex">
-		<option value="0">0</option>
-		<option value="10">10</option>
-		<option value="50">50</option>
-		<option value="100">100</option>
+    <td>Restaurant Price Index</td>
+    <td><select name="Select" id="Select">
+		<option value="SELECT">SELECT</option>	
+		<option value="0-25">0-25</option>
+		<option value="26-50">26-50</option>
+		<option value="51-75">51-75</option>
+		<option value="76-100">76-100</option>
 	</select></td>
-	<td><select name="maxQualityofLifeIndex" id="maxQualityofLifeIndex">
-		<option value="0">0</option>
-		<option value="10">10</option>
-		<option value="50">50</option>
-		<option value="100">100</option>
-	</select></td>
+	
   </tr>
   <tr>
 	<td></td>
@@ -107,7 +86,7 @@ body {
 <ol>
   <li>Chicago</li>
   <li>New York</li>
-  <li>Los Angeles</li>
+  <li>Los Angeles</li><br><br>
 </ol> 
 			
 </body>			
