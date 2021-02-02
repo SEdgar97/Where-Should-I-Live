@@ -3,8 +3,8 @@ import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, inspect, func
-from .config import posgres_sql
-from .config import posgres_user
+from   config import posgres_sql
+from   config import posgres_user
 import datetime as dt
 import pandas as pd
 

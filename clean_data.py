@@ -3,7 +3,6 @@ import json
 import requests
 import csv
 from pprint import pprint
-import qol_db.db as db
 
 api_key = "oez5tbfb8gztav"
 
@@ -119,43 +118,72 @@ def request_cost_of_living_rankings():
     response_json = response.json()
     df = pd.DataFrame.from_dict(response_json)
     df = df.loc[df['country'] == 'United States']
-    df.to_csv("Resources/col_rankings.csv")
+    df = df.drop(['country'], axis=1)
+    df['ranking'] = df.index
+    df = df[['city_id', 'city_name', 'ranking','cpi_and_rent_index','rent_index',
+            'purchasing_power_incl_rent_index','restaurant_price_index','groceries_index',
+            'cpi_index']] # rearrange column here 
+    print(df.head())
+    df.to_csv("Resources/col_rankings_db.csv",index=False)
 
     url = f'https://www.numbeo.com/api/rankings_by_city_current?api_key={api_key}&section=2'
     response = requests.get(url)
     response_json = response.json()
     df = pd.DataFrame.from_dict(response_json)
     df = df.loc[df['country'] == 'United States']
-    df.to_csv("Resources/property_prices.csv")
+    df = df.drop(['country'], axis=1)
+    df['ranking'] = df.index
+
+    df = df[['city_id', 'city_name', 'ranking','gross_rental_yield_outside_of_centre','price_to_rent_ratio_outside_of_centre',
+            'house_price_to_income_ratio','affordability_index','mortgage_as_percentage_of_income',
+            'price_to_rent_ratio_city_centre','gross_rental_yield_city_centre']] # rearrange column here 
+    print(df.head())
+    df.to_csv("Resources/property_prices_db.csv",index=False)
 
     url = f'https://www.numbeo.com/api/rankings_by_city_current?api_key={api_key}&section=7'
     response = requests.get(url)
     response_json = response.json()
     df = pd.DataFrame.from_dict(response_json)
     df = df.loc[df['country'] == 'United States']
-    df.to_csv("Resources/crime_rankings.csv")
+    df = df.drop(['country'], axis=1)
+    df['ranking'] = df.index
+    df = df[['city_id', 'city_name', 'ranking','crime_index','safety_index']] # rearrange column here 
+    df.to_csv("Resources/crime_rankings_db.csv",index=False)
 
     url = f'https://www.numbeo.com/api/rankings_by_city_current?api_key={api_key}&section=8'
     response = requests.get(url)
     response_json = response.json()
     df = pd.DataFrame.from_dict(response_json)
     df = df.loc[df['country'] == 'United States']
-    df.to_csv("Resources/pollution_rankings.csv")
+    df = df.drop(['country'], axis=1)
+    df['ranking'] = df.index
+    df = df[['city_id', 'city_name', 'ranking','pollution_index','exp_pollution_index']] # rearrange column here 
+    df.to_csv("Resources/pollution_rankings_db.csv",index=False)
 
     url = f'https://www.numbeo.com/api/rankings_by_city_current?api_key={api_key}&section=12'
     response = requests.get(url)
     response_json = response.json()
     df = pd.DataFrame.from_dict(response_json)
     df = df.loc[df['country'] == 'United States']
-    df.to_csv("Resources/qol_rankings.csv")
+    df = df.drop(['country'], axis=1)
+    df['ranking'] = df.index
+    df = df[['city_id', 'city_name', 'ranking', 'traffic_time_index','quality_of_life_index','healthcare_index',
+                'purchasing_power_incl_rent_index','house_price_to_income_ratio','pollution_index',
+                'climate_index','safety_index','cpi_index']] # rearrange column here     
+    df.to_csv("Resources/qol_rankings_db.csv",index=False)
+
+def clean_rankings_csv():
+    filepath = "Resources/crime_rankings.csv"
+    df = pd.read_csv(filepath)
+    df = df.drop()
 
 def clean_median_income():
     filepath = "Resources/merge3.csv"
     median_df = pd.read_csv(filepath)
-    median_df = median_df.drop(['country','cities','state','latitude','longitude','Zip_Code','ALand','ALand'], axis=1)
+    median_df = median_df.drop(['country','cities','state','latitude','longitude','Zip_Code','ALand','AWater','city'], axis=1)
     print(median_df.head())
     median_df = median_df.rename(columns={"Mean": "mean", "Median": "median", "Stdev": "std_dev"}, errors="raise")
-    median_df.to_csv("Resources/median_income_db.csv")
+    median_df.to_csv("Resources/median_income_db.csv",index=False)
 
 def rearrange_columns_for_db():
     filepath = "Resources/clean_us_cities.csv"
@@ -184,7 +212,7 @@ def take_care_of_zeros():
     indices_df.to_csv(filepath)
         
 #ETL Part here...
-
+"""
     if __name__ == "__main__":
         #Request all cities from usa from nombeo site
         #request_cities_in_usa()
@@ -194,3 +222,4 @@ def take_care_of_zeros():
         #rearrange_columns_for_db()
         #take_care_of_zeros()
         clean_median_income()
+"""
