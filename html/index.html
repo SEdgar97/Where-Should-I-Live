@@ -1,95 +1,145 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-  <meta charset="utf-8">
-  <title>Cities</title>
+<head>  
+	
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/superhero/bootstrap.min.css">
-  <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="style.css">
+  
 	<script src="https://d3js.org/d3.v5.min.js"></script>
-
 
 </head>
 
 
 <body>
+
+<div class="navbar" style="background-color:beige;">
+  <a class="active" href="#"><i class="fa fa-fw fa-Home"></i> Home</a> 
+  <a href="#"><i class="fa fa-fw fa-Resources"></i> Resources</a> 
+  <a href="#"><i class="fa fa-fw fa-Help"></i> Help</a> 
+  <a href="#"><i class="fa fa-fw fa-Contact"></i> Contact</a>
+</div>
+
 <table style ="width:100%">
 	<tr>
-	<th class="not_mapped_style" style="text-align:center;color:white;font-size:40px">WHERE SHOULD I LIVE?<br></th>
+	<th class="not_mapped_style" style="text-align:center;color:#F87217;font-size:40px">WHERE SHOULD I LIVE?<br></th>
 	</tr>
-	<td align="center"><img src="city.jpg" alt="" border=3 width="100%" height=488></img><br><br></td>
 	<tr>
-	
-</table>
-
-<table style="width:100%;color:white">
-  <tr>
-    <th></th>
-    <th></th>
-    
-  </tr>
-  <tr>
-    <td>Crime Index</td>
-	<td><select name="Select" id="Select">
-		<option value="SELECT">SELECT</option>	
-		<option value="0-25">0-25</option>
-		<option value="26-50">26-50</option>
-		<option value="51-75">51-75</option>
-		<option value="76-100">76-100</option>
-	</select></td>
-	
-	<td align="center" rowspan="5"><img src="A.jpg" alt="" border=3 width=500 height=420></img></td>
-  </tr>
-  <tr>
-    <td>Health Care Index</td>
-    <td><select name="Select" id="Select">
-		<option value="SELECT">SELECT</option>	
-		<option value="0-25">0-25</option>
-		<option value="26-50">26-50</option>
-		<option value="51-75">51-75</option>
-		<option value="76-100">76-100</option>
-	</select></td>
-	
-  </tr>
-    <tr>
-    <td>Pollution Index</td>
-    <td><select name="Select" id="Select">
-		<option value="SELECT">SELECT</option>	
-		<option value="0-25">0-25</option>
-		<option value="26-50">26-50</option>
-		<option value="51-75">51-75</option>
-		<option value="76-100">76-100</option>
-	</select></td>
-	
-  </tr>
-    <tr>
-    <td>Restaurant Price Index</td>
-    <td><select name="Select" id="Select">
-		<option value="SELECT">SELECT</option>	
-		<option value="0-25">0-25</option>
-		<option value="26-50">26-50</option>
-		<option value="51-75">51-75</option>
-		<option value="76-100">76-100</option>
-	</select></td>
-	
-  </tr>
-  <tr>
-	<td colspan="2" align="center"><input style="text-align:center;font-size:18px" type="submit" value="Search"></td>
-  </tr>
+	<td align="center"><img src="G.jpg" alt="" border=0 width=100% height=488></img><br><br></td>
+	</tr>
 		
 </table>
 
-<h2>Top 3 cities</h2>
+    <br />
+    <br />
 
-<ol>
-  <li>Chicago</li>
-  <li>New York</li>
-  <li>Los Angeles</li><br><br>
-</ol> 
+    <div class="card-deck">			
+				<div class="card">
+                    <div class="text-right">
+					<img class="" src="D.jpg" alt="Card image" style="width:80px; padding-right:10px; padding-top:10px">
+                    </div>
+					<div class="card-body d-flex flex-column">
+						<h4 class="card-title">Crime Index</h4>
+						<p class="card-text">Estimation of overall level of crime in a given city. Lower is better.</p>
+						<select name="crimeFilter" id="crimeFilter" style="margin-top: auto">
+							<option value="SELECT">SELECT</option>	
+							<option value="0-20 very low">0-20 very low</option>
+							<option value="20-40 low">20-40 low</option>
+							<option value="40-60 moderate">40-60 moderate</option>
+							<option value="60-80 high">60-80 high</option>
+							<option value="80-100 very high">80-100 very high</option>
+						</select>
+					</div>
+		        </div>
+			
+                <div class="card">
+                    <div class="text-right">
+                        <img class="card-img-top" src="B.jpg" alt="Card image" style="width:80px; padding-right:10px; padding-top:10px">
+                    </div>
+                        <div class="card-body d-flex flex-column">
+                            <h4 class="card-title">Health Care Index</h4>
+                            <p class="card-text">Estimation of the overall quality of the health care system (professionals, equipment, staff, doctors, cost). Higher is better.</p>
+                            <select name="HCFilter" id="HCFilter" style="margin-top: auto">
+                                <option value="SELECT">SELECT</option>
+                                <option value="0-20 very low">0-20 very low</option>
+                                <option value="20-40 low">20-40 low</option>
+                                <option value="40-60 moderate">40-60 moderate</option>
+                                <option value="60-80 high">60-80 high</option>
+                                <option value="80-100 very high">80-100 very high</option>
+                            </select>
+                        </div>
+                </div>
+			
+                <div class="card">
+                    <div class="text-right">
+                        <img class="card-img-top" src="C.jpg" alt="Card image" style="width:80px; padding-right:10px; padding-top:10px">
+                    </div>
+                        <div class="card-body d-flex flex-column">
+                            <h4 class="card-title">Pollution Index</h4>
+                            <p class="card-text">Estimation of the overall pollution in the city, considering mostly the level of air pollution. Lower is better.</p>
+                            <select name="pollutionFilter" id="pollutionFilter" style="margin-top: auto">
+                                <option value="SELECT">SELECT</option>
+                                <option value="0-20 very low">0-20 very low</option>
+                                <option value="20-40 low">20-40 low</option>
+                                <option value="40-60 moderate">40-60 moderate</option>
+                                <option value="60-80 high">60-80 high</option>
+                                <option value="80-100 very high">80-100 very high</option>
+                            </select>
+                        </div>
+                </div>
+			
+                <div class="card">
+                    <div class="text-right">
+                        <img class="card-img-top" src="E.jpg" alt="Card image" style="width:80px; padding-right:10px; padding-top:10px">
+                    </div>
+                        <div class="card-body d-flex flex-column">
+                            <h4 class="card-title">Restaurant Price Index</h4>
+                            <p class="card-text">Comparison of prices of meals and drinks in restaurants and bars compared to NYC. Lower is better.</p>
+                            <select name="restaurantFilter" id="restaurantFilter" style="margin-top: auto">
+                                <option value="SELECT">SELECT</option>
+                                <option value="0-20 very low">0-20 very low</option>
+                                <option value="20-40 low">20-40 low</option>
+                                <option value="40-60 moderate">40-60 moderate</option>
+                                <option value="60-80 high">60-80 high</option>
+                                <option value="80-100 very high">80-100 very high</option>
+                            </select>
+                        </div>
+                </div>
+    </div>
 
-<div id="map"></div>
+    <br />
+	<div class="container" align="center"><input style="text-align:center;font-size:24px;color:white;background-color:steelblue" type="submit" value="Search"><br><br></div>
+	
+<table>
+<tr>
+	<td colspan="4" align="center"><img src="A.jpg" alt="" border=0 width=40% height="auto"</img></td>
+</tr>
+</table>
+
+<br></br>
+
+
+  <table style ="width:100%; font-size:16px; color:blue">
+  <tr>
+  <th>City</th><th>Crime Index</th><th>Health Care Index</th><th>Pollution Index</th><th>Restaurant Price Index</th>
+  </tr>
+  <tr>
+  <td>New York</td><td>--</td><td>--</td><td>--</td><td>--</td>
+  </tr>
+  <tr>
+  <td>Los Angeles</td><td>--</td><td>--</td><td>--</td><td>--</td>
+  </tr>
+  <tr>
+  <td>Chicago</td><td>--</td><td>--</td><td>--</td><td>--</td>
+  </tr>
+  
+  </table>
+  
+  <div id="map"></div>
 ​
 <script type="text/javascript" src="static/js/config.js"></script>
 	<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
@@ -97,8 +147,40 @@
     crossorigin=""></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 ​
-	<script src="static/js/signUp.js"></script>	
+	<script src="static/js/signUp.js"></script>
+
+
+
+<div class="container">
+
+  <div class="row">
+    <div class="col-md-3">
+      
+      <div id="plot1" class="responsive-plot"></div>
+    </div>
+    <div class="col-md-3">
+      
+      <div id="plot2" class="responsive-plot"></div>
+    </div>
+    <div class="col-md-3">
+      
+      <div id="plot3" class="responsive-plot"></div>
+    </div>
+
+  </div>
+</div>
+
+<script type="text/javascript" src="https://cdn.plot.ly/plotly-latest.min.js"></script>   
+    <script src="my_plot_scripts.js"></script>
+    <script type="text/javascript" src="https://cdn.plot.ly/plotly-latest.min.js"></script>    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>    
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/scripts.js"></script>
 	
+<footer>
+	<p>Copyright &copy; 2021 Made with 🤍</p>
+</footer>
 	
+
 </body>			
 </html>
