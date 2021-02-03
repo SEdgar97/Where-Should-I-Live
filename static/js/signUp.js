@@ -6,27 +6,26 @@ var myMap = L.map("map", {
 // Add a tile layer
 L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
   attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
-  tileSize: 512,
+  tileSize: 256,
   maxZoom: 18,
   zoomOffset: -1,
   id: "mapbox/streets-v11",
   accessToken: API_KEY
 }).addTo(myMap);
 
-var crimeVal = 0;
-var HCVal = 0;
-var pollutionVal = 0;
-var restaurantVal = 0;
+var crimeVal = "";
+var HCVal = "";
+var pollutionVal = "";
+var restaurantVal = "";
 
-
-$(function(){
-	var crimeFilter = d3.select("#crimeFilter");
+var crimeFilter = d3.select("#crimeFilter");
 	var HCFilter = d3.select("#HCFilter");
 	var pollutionFilter = d3.select("#pollutionFilter");
 	var restaurantFilter = d3.select("#restFilter");
 
 	crimeFilter.on("change",function(){
 	    crimeVal = this.value;
+	    console.log(crimeVal)
 	});
 	HCFilter.on("change",function(){
 	    HCVal = this.value;
@@ -40,12 +39,11 @@ $(function(){
 
 var filters = {"Crime": crimeVal,"Healthcare": HCVal,"Pollution": pollutionVal,"Restaurant": restaurantVal};
 
-	$('button').click(function(){
 
-
-
+$(function(){
+	$('.submit').click(function(){
 		$.ajax({
-			url: '/get_data',
+			url: `/get_data/crime=${crimeVal}/healthcare=${HCVal}/pollution=${pollutionVal}/restaurant=${restaurantVal}`,
 			data: filters,
 			type: 'POST',
 			success: function(response){
@@ -54,9 +52,6 @@ var filters = {"Crime": crimeVal,"Healthcare": HCVal,"Pollution": pollutionVal,"
 
 				for(var i = 0; i<vals.length; i++){
 				    var key = vals[i]
-				    console.log(response.city[key])
-				    console.log("Latitude: " + response.latitude[key])
-				    console.log("Longitude: " + response.longitude[key])
 				    L.marker([response.latitude[key],response.longitude[key]])
 				    .bindPopup("<h3>" + response.city[key] + "</h3> <hr> <h5> (" + response.latitude[key] + ", " + response.longitude[key] + ")")
 				    .addTo(myMap)

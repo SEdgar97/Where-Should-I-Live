@@ -20,11 +20,14 @@ def signUpUser():
     return json.dumps({'status':'OK','user':user,'pass':password});
 
 
-@app.route('/get_data', methods=['POST'])
-def getMapData():
-    user_in = request.get_json()
+@app.route('/get_data/crime=<crime>/healthcare=<healthcare>/pollution=<pollution>/restaurant=<restaurant>', methods=['POST'])
+def getMapData(crime, healthcare, pollution, restaurant):
+    user_in = request.form.get("Crime")
     print('hello')
-    print(user_in)
+    print("Crime: " + crime)
+    print("Healthcare: " + healthcare)
+    print("Pollution: " + pollution)
+    print("Restaurant: " + restaurant)
     print('that was it')
     filters = [0, 0, 0, 0]
     data = utility.get_Data(filters)
