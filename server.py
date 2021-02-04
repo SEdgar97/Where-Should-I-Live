@@ -1,7 +1,11 @@
 from flask import request, Flask, jsonify, render_template, redirect, json
+
 import utility
+from qol_db import db
+import clean_data
 
 app = Flask(__name__)
+qol = db.Database_QOL()
 
 @app.route('/')
 def hello():
@@ -29,5 +33,18 @@ def getMapData(crime, healthcare, pollution, restaurant):
     return data
 
 
-if __name__ == "__main__":
-    app.run()
+@app.route('/life', methods=['GET'])
+def get_cities():
+    db_json = qol.get_cities_by_user_input(crime_index = "0-20", health_care_index = "70-100", 
+                                    pollution_index = "0-20")
+    print(db_json)
+    return db_json
+    
+
+if __name__=="__main__":
+    clean_data.request_cost_of_living_rankings()
+    qol.database_test()
+    qol.get_cities_by_user_input(crime_index = "0-20", health_care_index = "70-100", 
+                                    pollution_index = "0-20")
+    app.run(port = 5002)
+
