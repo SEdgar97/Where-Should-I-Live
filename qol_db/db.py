@@ -5,7 +5,7 @@ from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, inspect, func
 from   config import posgres_sql
-from  config import posgres_user
+from   config import posgres_user
 import datetime as dt
 import pandas as pd
 
@@ -29,18 +29,24 @@ class Database_QOL:
         print(self.inspector.get_table_names())
 
 
-    def get_cities_by_user_input(self, crime_index = "0-25", health_care_index = "50-70", pollution_index = "0-20"):
-        numbers = [int(x) for x in health_care_index.split('-')]
+    def get_cities_by_user_input(self, criterias):
+        
+        numbers = [int(x) for x in criterias[0].split('-')]
         crime_index_cond = [self.Metrics.crime_index > numbers[0], self.Metrics.crime_index <= numbers[1]]
 
-        numbers = [int(x) for x in health_care_index.split('-')]
+        numbers = [int(x) for x in criterias[1].split('-')]
         health_care_index_cond = [self.Metrics.health_care_index > numbers[0], self.Metrics.health_care_index <= numbers[1]]
 
-        numbers = [int(x) for x in pollution_index.split('-')]
+        numbers = [int(x) for x in criterias[2].split('-')]
         pollution_index_cond = [self.Metrics.pollution_index > numbers[0], self.Metrics.pollution_index <= numbers[1]]
+
+        numbers = [int(x) for x in criterias[3].split('-')]
+        restaurant_index = [self.Metrics.restaurant_price_index > numbers[0], self.Metrics.restaurant_price_index <= numbers[1]]
 
         select_stmt = [ self.Metrics.city_id,
                 self.Cities.city,
+                self.Cities.latitude,
+                self.Cities.logitude,
                 self.Metrics.crime_index,
                 self.Metrics.restaurant_price_index,
                 self.Metrics.pollution_index,
@@ -52,9 +58,9 @@ class Database_QOL:
                                     filter(or_(*crime_index_cond)). \
                                         filter(or_(*health_care_index_cond)). \
                                             filter(or_(*pollution_index_cond)). \
-                                                filter(self.Metrics.city_id == self.Cities.city_id). \
-                                                all()
-        
+                                                filter(or_(*restaurant_index)).\
+                                                    filter(self.Metrics.city_id == self.Cities.city_id).all()                                                  
+                                                
         df = pd.DataFrame(results)
         print(df.head(20))
         return df.to_json(orient="records")

@@ -14,9 +14,9 @@ def hello():
 
 @app.route('/signUpUser', methods=['POST'])
 def signUpUser():
-    user = request.form['username'];
-    password = request.form['password'];
-    return json.dumps({'status':'OK','user':user,'pass':password});
+    user = request.form['username']
+    password = request.form['password']
+    return json.dumps({'status':'OK','user':user,'pass':password})
 
 
 @app.route('/get_data/crime=<crime>/healthcare=<healthcare>/pollution=<pollution>/restaurant=<restaurant>', methods=['POST'])
@@ -28,15 +28,14 @@ def getMapData(crime, healthcare, pollution, restaurant):
     print("Pollution: " + pollution)
     print("Restaurant: " + restaurant)
     print('that was it')
-    filters = [0, 0, 0, 0]
+    filters = [crime, healthcare, pollution, restaurant]
     data = utility.get_Data(filters)
     return data
 
 
 @app.route('/life', methods=['GET'])
 def get_cities():
-    db_json = qol.get_cities_by_user_input(crime_index = "0-20", health_care_index = "70-100", 
-                                    pollution_index = "0-20")
+    db_json = qol.get_cities_by_user_input(["0-20","70-100","0-20", "60-70"])
     print(db_json)
     return db_json
     
@@ -44,7 +43,5 @@ def get_cities():
 if __name__=="__main__":
     clean_data.request_cost_of_living_rankings()
     qol.database_test()
-    qol.get_cities_by_user_input(crime_index = "0-20", health_care_index = "70-100", 
-                                    pollution_index = "0-20")
     app.run(port = 5002)
 

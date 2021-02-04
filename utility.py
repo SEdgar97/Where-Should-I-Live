@@ -1,4 +1,11 @@
+import qol_db.db as qol_db
+
+qol = qol_db.Database_QOL()
+
 def get_Data(filter):
+    city_json = get_data_from_db(filter)
+    return city_json
+"""
     import pandas as pd
     if len(filter) < 4:
         print('No no no, get more filters')
@@ -16,8 +23,12 @@ def get_Data(filter):
     city_json = city_df.to_json()
 
     return city_json
+"""
 
-
-
+def get_data_from_db(filter):
+    print(filter)
+    criterias = [f.split(' ')[0] for f in filter] 
+    return qol.get_cities_by_user_input(criterias)
+    
 
 filters = [0,1,2,3]
