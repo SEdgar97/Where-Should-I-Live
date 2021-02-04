@@ -7,8 +7,14 @@ body {
   position: relative;
   border: 1px solid black;
   border-radius: 8px;
-  height: 400px;  /* or as desired */
-  width: 100%;
+  /*height: 400px;  /* or as desired */
+  height: 50%;
+
+}
+
+#map-container{
+height: 100%;
+
 }
 
 h1 {
