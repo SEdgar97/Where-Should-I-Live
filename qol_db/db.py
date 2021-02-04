@@ -23,7 +23,7 @@ class Database_QOL:
         self.Base.prepare(self.engine, reflect=True)
         self.session = Session(self.engine)
         self.Cities = self.Base.classes.cities
-        self.Metrics = self.Base.classes.qol_indices
+        self.Metrics = self.Base.classes.us_income_qol_indices
 
     def database_test(self):
         print(self.inspector.get_table_names())
@@ -46,13 +46,15 @@ class Database_QOL:
         select_stmt = [ self.Metrics.city_id,
                 self.Cities.city,
                 self.Cities.latitude,
-                self.Cities.logitude,
+                self.Cities.longitude,
                 self.Metrics.crime_index,
+                self.Metrics.climate_index,
                 self.Metrics.restaurant_price_index,
                 self.Metrics.pollution_index,
                 self.Metrics.health_care_index,
                 self.Metrics.property_price_to_income_ratio,
-                self.Metrics.traffic_index]
+                self.Metrics.traffic_index,
+                self.Metrics.median]
                 
         results = self.session.query(*select_stmt).\
                                     filter(or_(*crime_index_cond)). \
