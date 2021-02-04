@@ -1,6 +1,6 @@
 # Import SQLAlchemy `automap` and other dependencies here
 import sqlalchemy
-from sqlalchemy import or_
+from sqlalchemy import or_, and_
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, inspect, func
@@ -32,6 +32,7 @@ class Database_QOL:
     def get_cities_by_user_input(self, criterias):
         
         numbers = [int(x) for x in criterias[0].split('-')]
+        print(numbers)
         crime_index_cond = [self.Metrics.crime_index > numbers[0], self.Metrics.crime_index <= numbers[1]]
 
         numbers = [int(x) for x in criterias[1].split('-')]
@@ -57,14 +58,15 @@ class Database_QOL:
                 self.Metrics.median]
                 
         results = self.session.query(*select_stmt).\
-                                    filter(or_(*crime_index_cond)). \
-                                        filter(or_(*health_care_index_cond)). \
-                                            filter(or_(*pollution_index_cond)). \
-                                                filter(or_(*restaurant_index)).\
-                                                    filter(self.Metrics.city_id == self.Cities.city_id).all()                                                  
-                                                
+                                                filter(self.Metrics.city_id == self.Cities.city_id,
+                                                            and_(*crime_index_cond),
+                                                            and_(*health_care_index_cond),
+                                                            and_(*pollution_index_cond),
+                                                            and_(*restaurant_index)
+                                                        ).all()                                                                        
         df = pd.DataFrame(results)
-        print(df.head(20))
+        print(df.head())
+        to_json = df.to_json(orient="records")
         return df.to_json(orient="records")
 
         
