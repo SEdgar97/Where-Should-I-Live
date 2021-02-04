@@ -115,3 +115,48 @@ CREATE TABLE "col_ranking" (
     "cpi_index" float
 
 );
+
+CREATE TABLE "qol_indices" (
+    id SERIAL,
+    CONSTRAINT "pk_id" PRIMARY KEY (
+        "id"
+    ),
+     "city_id"  int NOT NULL,
+	    FOREIGN KEY (city_id) REFERENCES cities(city_id),
+    "health_care_index"  float,
+    "crime_index" float,
+    "restaurant_price_index" float,
+    "climate_index" float,
+    "pollution_index" float,
+    "quality_of_life_index" float,
+    "cpi_index" float,
+    "property_price_to_income_ratio" float,
+    "purchasing_power_incl_rent_index" float,
+    "traffic_index" float
+);
+
+DROP TABLE IF EXISTS us_income_qol_indices CASCADE;
+CREATE TABLE "us_income_qol_indices" (
+    id SERIAL,
+    CONSTRAINT "pk_us_income_qol_indices_id" PRIMARY KEY (
+        "id"
+    ),
+     "city_id"  int NOT NULL,
+	    FOREIGN KEY (city_id) REFERENCES cities(city_id),
+    
+    "health_care_index"  float,
+    "crime_index" float,
+    "restaurant_price_index" float,
+    "climate_index" float,
+    "pollution_index" float,
+    "quality_of_life_index" float,
+    "cpi_index" float,
+    "property_price_to_income_ratio" float,
+    "purchasing_power_incl_rent_index" float,
+    "traffic_index" float,
+    "median"  float,
+    "mean" float,
+    "std_dev" float,
+    "sum_w" float
+);
+
