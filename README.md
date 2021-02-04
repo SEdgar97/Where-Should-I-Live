@@ -8,7 +8,7 @@ Proposed Datasets:
 1. Movehub: https://www.kaggle.com/blitzr/movehub-city-rankings?select=movehubcostofliving.csv
 2. National Parks Data - https://www.latlong.net/category/national-parks-236-42.html
 3. Numbeo: https://www.numbeo.com/api/doc.jsp
-
+4. Kaggle: https://www.kaggle.com/goldenoakresearch/us-household-income-stats-geo-locations?select=kaggle_income.csv
 
 We will use this data to compare cities across the US with respect to cost of living, consumer prices, crime rates, education, and other factors. We will then recommend to the user the best places that they may want to consider for a future place to live based upon their input criteria weighted by cost of living in each location.
 
