@@ -39,36 +39,68 @@ var crimeFilter = d3.select("#crimeFilter");
 
 var filters = {"Crime": crimeVal,"Healthcare": HCVal,"Pollution": pollutionVal,"Restaurant": restaurantVal};
 
+var citiesLayer = L.layerGroup();
 
 $(function(){
 	$('.submit').click(function(){
+        citiesLayer.clearLayers();
+        $('#dataTable tr').detach();
+
+
 		$.ajax({
 			url: `/get_data/crime=${crimeVal}/healthcare=${HCVal}/pollution=${pollutionVal}/restaurant=${restaurantVal}`,
 			data: filters,
 			type: 'POST',
 			success: function(response){
 				response = JSON.parse(response)
-				var vals = Object.keys(response.city)
+				var size=0;
+                for(let k in response.latitude) {
+                console.log(k)
+                  size++
+                }
+                console.log(size)
 
-				for(var i = 0; i<vals.length; i++){
-				    var key = vals[i]
-				    L.marker([response.latitude[key],response.longitude[key]])
-				    .bindPopup("<h3>" + response.city[key] + "</h3> <hr> <h5> (" + response.latitude[key] + ", " + response.longitude[key] + ")")
-				    .addTo(myMap)
+				for(var i = 0; i<size; i++){
+				console.log(response.latitude[i])
+				    L.marker([response.latitude[i],response.longitude[i]])
+				    .bindPopup("<h3>" + response.city[i] + "</h3> <hr> <h6> (" + response.latitude[i] + ", " + response.longitude[i] + ")</h6>" )
+				    .addTo(citiesLayer)
 
 				};
+				var tbody = d3.select('#dataTable');
 
-				for (var i = 0; i < cities.length; i++) {
-                    var city = cities[i];
-                    L.marker(city.location)
-                    .bindPopup("<h1>" + city.name + "</h1> <hr> <h3>Population " + city.population + "</h3>")
-                    .addTo(myMap);
-                }
+        if (size > 0) {
+        console.log('making a table')
+            for(var j = 0; j<size; j++){
+                var row = tbody.append('tr');
+                console.log('row')
+                var cell = row.append("td");
+                console.log('cell')
+                cell.text(response.city[j])
+                cell = row.append("td");
+                cell.text(response.crime_index[j])
+
+                cell = row.append("td");
+                cell.text(response.health_care_index[j])
+
+                cell = row.append("td");
+                cell.text(response.pollution_index[j])
+                cell = row.append("td");
+                cell.text(response.restaurant_price_index[j])
+
+
+		    };
+
+        };
 			},
 			error: function(error){
 				console.log(error);
 			}
 		});
+        citiesLayer.addTo(myMap);
+
+
+
 
 	});
 });
