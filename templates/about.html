@@ -20,19 +20,11 @@
     <div id="page-wrap">
 
 
-		<nav>
-			<ul class="group" style="background-color:beige; list-style-type:none">
-				<li class="nav-item">
-                  <a class="nav-link" href="index.html">Home</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="about.html">About</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="contact.html">Privacy</a>
-                </li>
-              </ul>
-        </nav>
+		<div class="navbar" style="background-color:beige;">
+  <a class="active" href="/"><i class="fa fa-fw fa-Home"></i> Home</a>
+  <a href="#"><i class="fa fa-fw fa-Help"></i> About</a>
+  <a href="/contact"><i class="fa fa-fw fa-Contact"></i> Contact</a>
+</div>
 
 
 		<section id="main-content">
@@ -40,11 +32,47 @@
 		<p style="font-family:georgia,garamond,serif;font-size:25px;color:#F87217;font-style:bold;">
 		About
 		</p>
-      		<p style="font-family:georgia,garamond,serif;font-size:16px;font-style:italic;padding-left:100pt;padding-right:300pt;text-align:justify;">
-        Given the massive number of history changing events that have happened in the last 12 months many people have found themselves asking just this question. This project aims to provide a simple way for people to find cities in the US that fit a given set of criteria to live in.
-We will use this data to compare cities across the US with respect to cost of living, consumer prices, crime rates, education, and other factors. We will then recommend to the user the best places that they may want to consider for a future place to live based upon their input criteria weighted by cost of living in each location.
-      </p>
+            <h3 style = "padding-left: 300pt"><strong>In these unprecedented times...</strong></h3>
+      		<p style="font-family:georgia,garamond,serif;font-size:16px;font-style:italic;padding-left:300pt;padding-right:300pt;text-align:justify;">
+                The non-stop parade of world changing events that have occurred over the past 12 months have led many people to reconsider
+                the fundamental facts of their lives. One of these is where they have chosen to live. As work becomes more remote and people
+                are beginning to take up new activities why not think about living in a new place. The only trouble is... where?
+                <br>
+                <br>
+                This simple website aims to answer that question. We have taken data from Numbeo, the largest "Cost of Living" database.
+                This database is typically used by employers in determining salaries, we hav repurposed it to recommend cities for The user selects
+                from four different options to narrow down a selection of cities.
+                <ol style="font-family:georgia,garamond,serif;font-size:16px;font-style:italic;padding-left:300pt;padding-right:300pt;text-align:justify;">
+                    <li><strong>Crime Index: </strong>An estimation of the amount of crime in a city. It is ranked 0-100 where 0 is non-existent crime
+                    and 100 is incredibly prevalent and would become a significant factor in every day living.</li>
+                    <li><strong>Healthcare Index: </strong>An estimation of the quality of the healthcare system in the area. This involves
+                    a variety of factors from cost of healthcare, quality of various aspects of the medical system from physician skill to
+                    access to complex procedures and testing. Given that this dataset incorporates only cities within the United States there
+                    is an accepted baseline of healthcare that you will find in all of these cities. As a result, all of the data in this
+                    category will be clustered 60+.</li>
+                    <li><strong>Pollution Index: </strong> An estimation of the level of pollution in the city. This incorporates a number of
+                    factors including air, water, and noise pollution with air pollution weighted the highest. It is ranked 0-100 where 0 is
+                    non-existent pollution and 100 is very significant.</li>
+                    <li><strong>Restaurant Price Index: </strong> An estimation of average restaurant price in a given area. This is a scaled index
+                    based around New York City. A score of 100 indicates prices that are roughly equivalent to New York City Restaurant prices.
+                    Over 100 means more expensive and under 100 means less expensive. The further away from 100 the stronger the effect.</li>
+                </ol>
+                <br>
+            </p>
+            <p style="font-family:georgia,garamond,serif;font-size:16px;font-style:italic;padding-left:300pt;padding-right:300pt;text-align:justify;">
+                The map displays cities that meet the given criteria. The table below the map lists all of the cities and their values in each of
+                the four filter categories. The order of the cities is based off of a separate algorithm. This algorithm accounts for: climate,
+                traffic, and property-price-to-income-ratio. With the following equation:
+                <br>
+                0.2 * (CI) + 0.2 * (TI) + 0.6 * (PPTIR)
+                <br>
+                The chart at the bottom of the webpage allows the user to examine all of the cities across the four different filter categories.
+                This allows the user to evaluate the data with respect to different dimensions from those selected by the creators of the website.
 
+
+            </p>
+
+        </div>
 		</section>
 
 <div class="footer" style= "position: fixed;bottom: 0;left: 0; width: 100%;color: indigo;text-align:center";>
