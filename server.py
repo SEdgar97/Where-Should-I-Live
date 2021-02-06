@@ -39,7 +39,7 @@ def getMapData(crime, healthcare, pollution, restaurant):
 
 @app.route('/life', methods=['GET'])
 def get_cities():
-    db_json = qol.get_cities_by_user_input(["0-20","70-100","0-20", "60-70"])
+    db_json = qol.get_data_test()
     print(db_json)
     return db_json
     

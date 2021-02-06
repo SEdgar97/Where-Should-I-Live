@@ -14,7 +14,8 @@ class Database_QOL:
         #################################################
         # Database Setup
         #################################################
-        self.engine = create_engine(f'postgresql://{posgres_user}:{posgres_sql}@localhost:5432/qol_us_cities')
+        print(posgres_user,posgres_sql)
+        self.engine = create_engine(f'postgresql://{posgres_user}:{posgres_sql}@localhost:5433/qol_us_cities')
         # Use the Inspector to explore the database and print the table names
         self.inspector = inspect(self.engine)
         # reflect an existing database into a new model
@@ -28,6 +29,30 @@ class Database_QOL:
     def database_test(self):
         print(self.inspector.get_table_names())
 
+
+    def get_data_test(self):
+        select_stmt = [ 
+            self.Metrics.city_id,
+            self.Cities.city,
+            self.Cities.latitude,
+            self.Cities.longitude,
+            self.Metrics.crime_index,
+            self.Metrics.climate_index,
+            self.Metrics.restaurant_price_index,
+            self.Metrics.pollution_index,
+            self.Metrics.health_care_index,
+            self.Metrics.property_price_to_income_ratio,
+            self.Metrics.traffic_index,
+            self.Metrics.median]
+                
+        results = self.session.query(*select_stmt).\
+                                                    filter(self.Cities.city_id == self.Metrics.city_id,
+                                                    and_(self.Metrics.crime_index > 0, self.Metrics.crime_index <30))
+
+        df = pd.DataFrame(results)
+        to_json = df.to_json(orient="records")
+        print(to_json)
+        return to_json
 
     def get_cities_by_user_input(self, criterias):
         
@@ -66,6 +91,7 @@ class Database_QOL:
                                                         ).all()                                                                        
         df = pd.DataFrame(results)
         to_json = df.to_json(orient="records")
+        print(to_json)
         return df.to_json(orient="records")
 
         
