@@ -47,6 +47,7 @@ $(function(){
 	$('.submit').click(function(){
         citiesLayer.clearLayers();
         $('#dataTable tr').detach();
+        $('#chart svg').detach();
 
 
 		$.ajax({
@@ -54,46 +55,40 @@ $(function(){
 			data: filters,
 			type: 'POST',
 			success: function(response){
-        response = JSON.parse(response)
-        
-				var size=0;
-                for(let k in response.latitude) {
-                console.log(k)
-                  size++
-                }
-                console.log(size)
 
-				for(var i = 0; i<size; i++){
-				console.log(response.latitude[i])
-				    L.marker([response.latitude[i],response.longitude[i]])
-				    .bindPopup("<h3>" + response.city[i] + "</h3> <hr> <h6> (" + response.latitude[i] + ", " + response.longitude[i] + ")</h6>" )
+				response = JSON.parse(response)
+
+				for(var i = 0; i<response.length; i++){
+				    L.marker([response[i].latitude,response[i].longitude])
+				    .bindPopup("<h3>" + response[i].city + "</h3> <hr> <h6> (" + response[i].latitude + ", " + response[i].longitude + ")</h6>" )
+
 				    .addTo(citiesLayer)
 				};
 				var tbody = d3.select('#dataTable');
 
-        if (size > 0) {
-        console.log('making a table')
-            for(var j = 0; j<size; j++){
+        if (response.length > 0) {
+
+            for(var j = 0; j<response.length; j++){
                 var row = tbody.append('tr');
-                console.log('row')
+
                 var cell = row.append("td");
-                console.log('cell')
-                cell.text(response.city[j])
+
+                cell.text(response[j].city)
                 cell = row.append("td");
-                cell.text(response.crime_index[j])
+                cell.text(response[j].crime_index)
 
                 cell = row.append("td");
-                cell.text(response.health_care_index[j])
+                cell.text(response[j].health_care_index)
 
                 cell = row.append("td");
-                cell.text(response.pollution_index[j])
+                cell.text(response[j].pollution_index)
                 cell = row.append("td");
-                cell.text(response.restaurant_price_index[j])
+                cell.text(response[j].restaurant_price_index)
 
 
 		    };
 
-        };
+
 			},
 			error: function(error){
 				console.log(error);
@@ -103,25 +98,6 @@ $(function(){
 	});
 });
 
-/*
-fetch('/life')
-    .then(function (response) {
-        return response.json(); // But parse it as JSON this time
-    })
-    .then(function (json) {
-        console.log('GET response as JSON:');
-        json.forEach(function(data) {
-          data.crime_index = +data.crime_index;
-          data.health_care_index = +data.health_care_index;
-          data.pollution_index = +data.pollution_index;
-          data.climate_index = +data.climate_index;
-          data.property_price_to_income_ratio = +data.property_price_to_income_ratio;
-          data.restaurant_price_index = +data.restaurant_price_index;
-          data.median = +data.median;
-          console.log(data)
-        });
-  */
-
 // Creating the initial size of the svg
 var svgWidth = 960;
 var svgHeight = 500;
@@ -130,16 +106,19 @@ var svgHeight = 500;
 var margin = {
   top: 20,
   right: 40,
-  bottom: 80,
-  left: 100
+  bottom: 140,
+  left: 140
 };
+
 // Create the sizes for the chart
 var width = svgWidth - margin.left - margin.right;
 var height = svgHeight - margin.top - margin.bottom;
 
 // Create an svg inside the chart object
 var svg = d3
-  .select("#plot1")
+
+  .select("#chart")
+
   .append("svg")
   .attr("width", svgWidth)
   .attr("height", svgHeight);
@@ -163,11 +142,42 @@ var chartTitle = d3.select('.chart-title').text('Healthcare Index v. Pollution I
 // Update the y scale based upon given values, called when an axis is clicked
 function yScale(cityData, chosenYAxis) {
 
+    var max = 0;
+  var min = 1000;
+  for (var y = 0; y<cityData.length;y++){
+  switch(chosenYAxis){
+    case "health_care_index":
+        var val = cityData[y].health_care_index;
+        console.log(val)
+        break;
+    case "pollution_index":
+        var val = cityData[y].pollution_index;
+        console.log(val)
+        break;
+    case "crime_index":
+        var val = cityData[y].crime_index;
+        console.log(val)
+        break;
+    case "restaurant_price_index":
+        var val = cityData[y].restaurant_price_index;
+        console.log(val)
+        break;
+
+  }
+
+    if (val > max){
+        max = val;
+        console.log("max: "+ max)
+
+    };
+    if (val < min){
+        min = val;
+        console.log("min: "+ min)
+    };
+}
     // Creating a scaled y axis from the values given
   var yLinearScale = d3.scaleLinear()
-    .domain([d3.min(cityData, d => d[chosenYAxis]) * 0.8,
-      d3.max(cityData, d => d[chosenYAxis]) * 1.2
-    ])
+    .domain([min * 0.8,  max * 1.2])
     .range([height,0]);
 
   return yLinearScale;
@@ -176,10 +186,44 @@ function yScale(cityData, chosenYAxis) {
 // Same as the y axis but for the x
 function xScale(cityData, chosenXAxis) {
   // create scales
+  var max = 0;
+  var min = 1000;
+  for (var x = 0; x<cityData.length;x++){
+  switch(chosenXAxis){
+    case "health_care_index":
+        var val = cityData[x].health_care_index;
+        console.log(val)
+        break;
+    case "pollution_index":
+        var val = cityData[x].pollution_index;
+        console.log(val)
+        break;
+    case "crime_index":
+        var val = cityData[x].crime_index;
+        console.log(val)
+        break;
+    case "restaurant_price_index":
+        var val = cityData[x].restaurant_price_index;
+        console.log(val)
+        break;
+
+  }
+
+    if (val > max){
+        max = val;
+        console.log("max: "+ max)
+
+    };
+    if (val < min){
+        min = val;
+        console.log("min: "+ min)
+    };
+
+  };
   var xLinearScale = d3.scaleLinear()
-    .domain([d3.min(cityData, d => d[chosenXAxis]) * 0.8,
-      d3.max(cityData, d => d[chosenXAxis]) * 1.2
-    ])
+
+    .domain([min * 0.8, max * 1.2])
+
     .range([0, width]);
 
   return xLinearScale;
@@ -239,7 +283,7 @@ function renderCircles(circlesGroup, newXScale, newYScale, chosenYAxis, chosenXA
 }
 
 // This changes the tool tip based upon the axes selected
-function updateToolTip(chosenXAxis,chosenYAxis, circlesGroup) {
+function updateToolTip(chosenXAxis,chosenYAxis, circlesGroup,xVal,yVal) {
 
       var xlabel;
       var ylabel;
@@ -273,49 +317,45 @@ function updateToolTip(chosenXAxis,chosenYAxis, circlesGroup) {
       }
       console.log(ylabel)
     // This creates the tooltip structure and hands it over to css for the formatting
-    var toolTip = d3.tip()
-              .attr("class", "d3-tip")
-              .offset([80, -60])
-              .html(function(d) {
-                return (`<br>${xlabel} ${d[chosenXAxis]}<br> ${ylabel} ${d[chosenYAxis]}`);
-              });
-    // Actually add the tooltip
-      circlesGroup.call(toolTip);
 
-    // Add the events listener that renders and hides the tooltip object
-      circlesGroup.on("mouseover", function(data) {
-        toolTip.show(data,this);
-      })
-        .on("mouseout", function(data, index) {
-          toolTip.hide(data,this);
-        });
+  var toolTip = d3.tip()
+    .attr("class", "tooltip")
+    .offset([80, -60])
+    .html(function(d) {
+    console.log(d)
+      return (`${d['city']}<br>${xlabel} ${d[xVal]}<br> ${ylabel} ${d[yVal]}`);
+    });
+// Actually add the tooltip
+  circlesGroup.call(toolTip);
 
-      return circlesGroup;
-  }
+// Add the events listener that renders and hides the tooltip object
+  circlesGroup.on("mouseover", function(data) {
+    toolTip.show(data,this);
+  })
+    .on("mouseout", function(data, index) {
+      toolTip.hide(data,this);
+    });
 
+  return circlesGroup;
+}
+var xVal = "health_care_index";
+var yVal = "pollution_index";
 
 // Read through the data and make some of the columns numeric
-fetch('/life')
-.then(function (response) {
-    return response.json(); // But parse it as JSON this time
-})
-.then(function (json) {
-    console.log('GET response as JSON:');
-    json.forEach(function(data) {
-      data.crime_index = +data.crime_index;
-      data.health_care_index = +data.health_care_index;
-      data.pollution_index = +data.pollution_index;
-      data.climate_index = +data.climate_index;
-      data.property_price_to_income_ratio = +data.property_price_to_income_ratio;
-      data.restaurant_price_index = +data.restaurant_price_index;
-      data.median = +data.median;
-      console.log(data)
-    });
+//  censusData.forEach(function(data) {
+//    data.obesity = +data.obesity;
+//    data.healthcare = +data.healthcare;
+//    data.income = +data.income;
+//    data.age = +data.age
+//  });
+
 
     console.log(json);
   // Create the linear scale for each axis
-  var xLinearScale = xScale(json, chosenXAxis);
-  var yLinearScale = yScale(json, chosenYAxis);
+
+  var xLinearScale = xScale(response, xVal);
+  var yLinearScale = yScale(response, yVal);
+
 
 
   // Create the axis objects
@@ -424,7 +464,7 @@ fetch('/life')
 
 
   // Add the tooltips
-  var circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
+  var circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup, xVal,yVal);
 
   // Event listener for all axis clicks
   labelsGroup.selectAll("text")
@@ -434,50 +474,62 @@ fetch('/life')
 
     // Grab the current value and store it in either the changed X or Y
       if (value == 'xhealth_care_index') {
-        chosenXAxis = 'health_care_index';
+
+        chosenXAxis = 'xhealth_care_index';
+        xVal = 'health_care_index';
+
         }
 
         else if (value == 'xcrime_index') {
         chosenXAxis = 'xcrime_index';
+        xVal = 'crime_index';
         }
 
         else if (value == 'xpollution_index') {
         chosenXAxis = 'xpollution_index';
+        xVal = 'pollution_index';
         }
 
-        else {
+        else if(value == 'xrestaurant_price_index') {
         chosenXAxis = 'xrestaurant_price_index'
+        xVal = 'restaurant_price_index';
         }
 
         if (value == 'yhealth_care_index') {
         chosenYAxis = 'yhealth_care_index';
+        yVal = 'health_care_index';
         }
 
         else if (value == 'ycrime_index') {
         chosenYAxis = 'ycrime_index';
+        yVal = 'crime_index';
         }
 
         else if (value == 'ypollution_index') {
         chosenYAxis = 'ypollution_index';
+        yVal = 'pollution_index';
         }
 
-        else {
-        chosenXAxis = 'yrestaurant_price_index'
+        else if (value == 'yrestaurant_price_index')  {
+        chosenYAxis = 'yrestaurant_price_index';
+        yVal = 'restaurant_price_index';
         }
 
         // Create the X and Y scale based upon the selected axes
-        xLinearScale = xScale(json, chosenXAxis);
-        yLinearScale = yScale(json,chosenYAxis);
+
+        xLinearScale = xScale(response, xVal);
+        yLinearScale = yScale(response,yVal);
+
 
         // Render the axis transitions
         xAxis,yAxis = renderAxes(xLinearScale,yLinearScale, xAxis,yAxis);
 
 
         // Update the circles with their new positions
-        circlesGroup = renderCircles(circlesGroup, xLinearScale, yLinearScale, chosenYAxis, chosenXAxis);
+        circlesGroup = renderCircles(circlesGroup, xLinearScale, yLinearScale, yVal, xVal);
 
         // Update tooltips with new info
-        circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
+        circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup,xVal,yVal);
 
         // Changes the appearance of the axis labels
         if (chosenXAxis === "xhealth_care_index") {
@@ -530,7 +582,7 @@ fetch('/life')
                 .classed("inactive", true);
         }
 
-        else {
+        else if (chosenXAxis === "xrestaurant_price_index") {
             axisXVal = "Restaurant Index";
           xHCLabel
                 .classed("active", false)
@@ -595,7 +647,10 @@ fetch('/life')
                 .classed("active", false)
                 .classed("inactive", true);
         }
-        else {
+
+
+        else if (chosenYAxis === "yrestaurant_price_index") {
+
             axisYVal = "Restaurant Index";
           yHCLabel
                 .classed("active", false)
@@ -616,4 +671,27 @@ fetch('/life')
 
     });
 
-})
+
+
+
+
+
+
+
+
+
+
+			},
+			error: function(error){
+				console.log(error);
+			}
+		});
+        citiesLayer.addTo(myMap);
+
+
+
+
+	});
+});
+
+

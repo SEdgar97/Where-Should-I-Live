@@ -6,7 +6,6 @@ qol = qol_db.Database_QOL()
 def get_Data(filter):
     city_json = get_data_from_db(filter)
     weight_df = pd.read_json(city_json)
-
     cols = ['climate_index','traffic_index','property_price_to_income_ratio']
     if weight_df.empty:
         return city_json
@@ -17,8 +16,8 @@ def get_Data(filter):
 
         weight_df['Sum'] = 0.2 * weight_df['climate_index'] + 0.2 * weight_df['traffic_index'] + 0.6 * weight_df['property_price_to_income_ratio']
         weight_df = weight_df.sort_values('Sum', ascending = False).reset_index()
-        city_json = weight_df.to_json()
-        print(city_json)
+        city_json = weight_df.to_json(orient = 'records')
+
         return city_json
 
 
