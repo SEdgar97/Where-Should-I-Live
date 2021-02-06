@@ -178,12 +178,14 @@ def clean_rankings_csv():
     df = df.drop()
 
 def clean_median_income():
-    filepath = "Resources/merge3.csv"
-    median_df = pd.read_csv(filepath)
-    median_df = median_df.drop(['country','cities','state','latitude','longitude','Zip_Code','ALand','AWater','city'], axis=1)
-    print(median_df.head())
-    median_df = median_df.rename(columns={"Mean": "mean", "Median": "median", "Stdev": "std_dev"}, errors="raise")
-    median_df.to_csv("Resources/median_income_db.csv",index=False)
+    df1 = pd.read_csv("Resources/merge3.csv")
+    df4 = pd.read_csv("Resources/cities_indices_db.csv")
+    for i in ['Median','Mean','Stdev','sum_w']:
+        df4[i] = df4['city_id'].map(dict(zip(df1['city_id'],df1[i])))
+    df4.dropna(subset=['Median'])
+    df4 = df4.rename(columns={"Mean": "mean", "Median": "median", "Stdev": "std_dev"}, errors="raise")
+    df4.to_csv("Resources/us_income_qol_db.csv")
+
 
 def rearrange_columns_for_db():
     filepath = "Resources/clean_us_cities.csv"
