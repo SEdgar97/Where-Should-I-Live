@@ -16,3 +16,9 @@ We will use a sequential database based upon city name as the primary key. We wi
 
 ### Simple Diagram of Structure
 <p><img src = "https://user-images.githubusercontent.com/35506304/105790782-eb071900-5f52-11eb-8001-b727a56894a6.JPG"></p>
+
+serevr.py :  Flask app
+static/js: has javascript and Ajax code
+qol_db/: has hooks to db
+clean_data.py : All request to Nombeo website, cleaning and storing the db
+index.html code that has hooks to Plot,db and filters
