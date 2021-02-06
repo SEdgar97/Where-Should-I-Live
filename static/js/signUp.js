@@ -1,3 +1,4 @@
+
 var myMap = L.map("map", {
   center: [37.09, -95.71],
   zoom: 4
@@ -13,6 +14,7 @@ L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
   accessToken: API_KEY
 }).addTo(myMap);
 
+var response_data_from_db
 var crimeVal = "";
 var HCVal = "";
 var pollutionVal = "";
@@ -53,13 +55,14 @@ $(function(){
 			data: filters,
 			type: 'POST',
 			success: function(response){
+
 				response = JSON.parse(response)
 
 				for(var i = 0; i<response.length; i++){
 				    L.marker([response[i].latitude,response[i].longitude])
 				    .bindPopup("<h3>" + response[i].city + "</h3> <hr> <h6> (" + response[i].latitude + ", " + response[i].longitude + ")</h6>" )
-				    .addTo(citiesLayer)
 
+				    .addTo(citiesLayer)
 				};
 				var tbody = d3.select('#dataTable');
 
@@ -85,8 +88,15 @@ $(function(){
 
 		    };
 
-        };
 
+			},
+			error: function(error){
+				console.log(error);
+			}
+		});
+        citiesLayer.addTo(myMap);
+	});
+});
 
 // Creating the initial size of the svg
 var svgWidth = 960;
@@ -106,7 +116,9 @@ var height = svgHeight - margin.top - margin.bottom;
 
 // Create an svg inside the chart object
 var svg = d3
+
   .select("#chart")
+
   .append("svg")
   .attr("width", svgWidth)
   .attr("height", svgHeight);
@@ -117,12 +129,12 @@ var chartGroup = svg.append("g")
 
 
 // Create global variables for initial values
-var chosenXAxis = "xhealth_care_index";
-var chosenYAxis = "ypollution_index";
-var currentX = "xhealth_care_index";
-var currentY = 'ypollution_index';
-var axisXVal = "Healthcare Index";
-var axisYVal = "Pollution Index";
+var chosenXAxis = "health_care_index";
+var chosenYAxis = "pollution_index";
+var currentX = "health_care_index";
+var currentY = 'pollution_index';
+var axisXVal = "healthcare Index";
+var axisYVal = "pollution Index";
 
 // Create the initial value of the title
 var chartTitle = d3.select('.chart-title').text('Healthcare Index v. Pollution Index')
@@ -209,7 +221,9 @@ function xScale(cityData, chosenXAxis) {
 
   };
   var xLinearScale = d3.scaleLinear()
+
     .domain([min * 0.8, max * 1.2])
+
     .range([0, width]);
 
   return xLinearScale;
@@ -265,47 +279,45 @@ function renderCircles(circlesGroup, newXScale, newYScale, chosenYAxis, chosenXA
     currentY = chosenYAxis;
     }
 
-
   return circlesGroup;
 }
 
 // This changes the tool tip based upon the axes selected
 function updateToolTip(chosenXAxis,chosenYAxis, circlesGroup,xVal,yVal) {
 
-  var xlabel;
-  var ylabel;
+      var xlabel;
+      var ylabel;
 
-  if (chosenXAxis === "xhealth_care_index") {
-    xlabel = "HC index: ";
-  }
-  else if (chosenXAxis === "xpollution_index") {
-  xlabel = "Pollution index: ";
+      if (chosenXAxis === "health_care_index") {
+        xlabel = "HC index: ";
+      }
+      else if (chosenXAxis === "pollution_index") {
+      xlabel = "Pollution index: ";
 
-  }
-  else if(chosenXAxis === "xcrime_index") {
-  xlabel = "Crime index: "
-  }
-  else {
-    xlabel = "Restaurant Price index: ";
-  }
+      }
+      else if(chosenXAxis === "crime_index") {
+      xlabel = "Crime index: "
+      }
+      else {
+        xlabel = "Restaurant Price index: ";
+      }
 
+      if (chosenYAxis === "health_care_index") {
+        ylabel = "HC index: ";
+      }
+      else if (chosenYAxis === "pollution_index") {
+      ylabel = "Pollution index: ";
 
-  if (chosenYAxis === "yhealth_care_index") {
-    ylabel = "HC index: ";
-  }
-  else if (chosenYAxis === "ypollution_index") {
-  ylabel = "Pollution index: ";
-
-  }
-  else if(chosenYAxis === "ycrime_index") {
-  ylabel = "Crime index: "
-  }
-  else {
-    ylabel = "Restaurant Price index: ";
-  }
-
-
+      }
+      else if(chosenYAxis === "crime_index") {
+      ylabel = "Crime index: "
+      }
+      else {
+        ylabel = "Restaurant Price index: ";
+      }
+      console.log(ylabel)
     // This creates the tooltip structure and hands it over to css for the formatting
+
   var toolTip = d3.tip()
     .attr("class", "tooltip")
     .offset([80, -60])
@@ -337,9 +349,13 @@ var yVal = "pollution_index";
 //    data.age = +data.age
 //  });
 
+
+    console.log(json);
   // Create the linear scale for each axis
+
   var xLinearScale = xScale(response, xVal);
   var yLinearScale = yScale(response, yVal);
+
 
 
   // Create the axis objects
@@ -362,7 +378,7 @@ var yVal = "pollution_index";
   // Create the circle objects and the text objects
   // Circle objects don't render text in d3 so we add text objects and place them on top of the circles
   var circlesGroup = chartGroup.selectAll("circle")
-    .data(response)
+    .data(json)
     .enter()
     .append('g')
 
@@ -414,9 +430,6 @@ var yVal = "pollution_index";
     .classed("inactive", true)
     .text("Restaurant Index");
 
-
-
-
     var yHCLabel = labelsGroup.append("text")
     .attr("transform", "rotate(90)")
     .attr("x", 0 - (height / 2) -50)
@@ -461,8 +474,10 @@ var yVal = "pollution_index";
 
     // Grab the current value and store it in either the changed X or Y
       if (value == 'xhealth_care_index') {
+
         chosenXAxis = 'xhealth_care_index';
         xVal = 'health_care_index';
+
         }
 
         else if (value == 'xcrime_index') {
@@ -479,9 +494,6 @@ var yVal = "pollution_index";
         chosenXAxis = 'xrestaurant_price_index'
         xVal = 'restaurant_price_index';
         }
-
-
-
 
         if (value == 'yhealth_care_index') {
         chosenYAxis = 'yhealth_care_index';
@@ -504,8 +516,10 @@ var yVal = "pollution_index";
         }
 
         // Create the X and Y scale based upon the selected axes
+
         xLinearScale = xScale(response, xVal);
         yLinearScale = yScale(response,yVal);
+
 
         // Render the axis transitions
         xAxis,yAxis = renderAxes(xLinearScale,yLinearScale, xAxis,yAxis);
@@ -584,12 +598,6 @@ var yVal = "pollution_index";
                 .classed("inactive", false);
         }
 
-
-
-
-
-
-
         if (chosenYAxis === "yhealth_care_index") {
             axisYVal = "Healthcare Index";
 
@@ -640,7 +648,9 @@ var yVal = "pollution_index";
                 .classed("inactive", true);
         }
 
+
         else if (chosenYAxis === "yrestaurant_price_index") {
+
             axisYVal = "Restaurant Index";
           yHCLabel
                 .classed("active", false)
@@ -670,6 +680,7 @@ var yVal = "pollution_index";
 
 
 
+
 			},
 			error: function(error){
 				console.log(error);
@@ -682,4 +693,5 @@ var yVal = "pollution_index";
 
 	});
 });
+
 
