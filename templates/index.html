@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 
@@ -13,8 +14,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
     integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
     crossorigin="" />
-    <script src="https://d3js.org/d3.v5.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
+	<script src="https://d3js.org/d3.v5.min.js"></script>
 
 </head>
 
@@ -25,7 +25,7 @@
   <a class="active" href="#"><i class="fa fa-fw fa-Home"></i> Home</a> 
   <a href="#"><i class="fa fa-fw fa-Resources"></i> Resources</a> 
   <a href="#"><i class="fa fa-fw fa-Help"></i> Help</a> 
-  <a href="#"><i class="fa fa-fw fa-Contact"></i> Contact</a>
+  <a href="/contact"><i class="fa fa-fw fa-Contact"></i> Contact</a>
 </div>
 
 <table style ="width:100%">
@@ -134,7 +134,7 @@
 <br>
 
 
-  <table style ="width:100%; font-size:16px; color:blue" >
+  <table class = 'table' style ="width:100%; font-size:16px; color:blue" >
   <tr>
   <th>City</th><th>Crime Index</th><th>Health Care Index</th><th>Pollution Index</th><th>Restaurant Price Index</th>
   </tr>
@@ -167,8 +167,18 @@
   </div>
 </div>
 
+<div class = 'row'>
+    <div class = 'col-md-4'></div>
+    <div class = 'col-md-4'><strong><h4 class = 'chart-title'></h4></strong></div>
 
-<div id = "chart"></div>
+
+</div>
+<div class = 'row'>
+    <div class = 'col-md-1'></div>
+    <div class = 'col-md-10' id = "chart"></div>
+
+</div>
+
 
 <script type="text/javascript" src="static/js/config.js"></script>
 	<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
@@ -176,13 +186,12 @@
     crossorigin=""></script>
 ​
 	<script src="static/js/signUp.js"></script>
-    <script type="text/javascript" src="https://cdn.plot.ly/plotly-latest.min.js"></script>  
+<script type="text/javascript" src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script type="text/javascript" src="https://cdn.plot.ly/plotly-latest.min.js"></script>    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.9.1/d3-tip.js"></script>
 <script src="https://d3js.org/d3.v5.min.js"></script>
-
 
 <footer>
 	<p>Copyright &copy; 2021 Made with 🤍</p>
@@ -191,3 +200,4 @@
 
 </body>			
 </html>
+
