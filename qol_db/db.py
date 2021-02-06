@@ -14,8 +14,7 @@ class Database_QOL:
         #################################################
         # Database Setup
         #################################################
-        print(posgres_user,posgres_sql)
-        self.engine = create_engine(f'postgresql://{posgres_user}:{posgres_sql}@localhost:5433/qol_us_cities')
+        self.engine = create_engine(f'postgresql://{posgres_user}:{posgres_sql}@localhost:5432/qol_us_cities')
         # Use the Inspector to explore the database and print the table names
         self.inspector = inspect(self.engine)
         # reflect an existing database into a new model
