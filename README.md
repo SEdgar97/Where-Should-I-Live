@@ -17,8 +17,12 @@ We will use a sequential database based upon city name as the primary key. We wi
 ### Simple Diagram of Structure
 <p><img src = "https://user-images.githubusercontent.com/35506304/105790782-eb071900-5f52-11eb-8001-b727a56894a6.JPG"></p>
 
-serevr.py :  Flask app
-static/js: has javascript and Ajax code
-qol_db/: has hooks to db
-clean_data.py : All request to Nombeo website, cleaning and storing the db
-index.html code that has hooks to Plot,db and filters
+<strong>server.py: </strong>  Flask app which renders the html and communicates with the PostgreSQL database
+<br>
+<strong>static/js: </strong> Folder which contains the javascript code which is called by the html. The main function of the javascript is to take filtering data from the user, send these filters to the Flask server, then place the cities on the map, in the table, and on the interactive plot.
+<br>
+<strong>qol_db/: </strong> Folder which contains python files which commnicate with the database with the user input filters.
+<br>
+<strong>clean_data.py: </strong> All requests to the Numbeo website functions for cleaning the data and storing the db.
+<br>
+  <strong>index.html: </strong> Rendered html for the main page which displays all of our javascript created elements and contains the plots for user input.
